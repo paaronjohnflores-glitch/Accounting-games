@@ -1,10 +1,6 @@
 // 1. Question Bank
 const questionBank = [
     { q: "What Pokemon is the mascot of Pokemon?", a: ["Pichu", "Charizard", "Eevee", "Pikachu"], correct: 3 },
-    { q: "Which token is used for single-line comments?", a: ["//", "/*", "<!--", "#"], correct: 0 },
-    { q: "How do you declare a constant variable?", a: ["const", "let", "var", "constant"], correct: 0 },
-    { q: "Which data type is a true/false value?", a: ["Boolean", "String", "Number", "Null"], correct: 0 },
-    { q: "What does DOM stand for?", a: ["Document Object Model", "Data Object Modifier", "Display Order Management", "Document Order Model"], correct: 0 },
     { q: "who is the father of accounting", a: ["Luca Paciulo", "Adam Smith", "Luca Pacioli", "Henry Ford"], correct: 2 },
     { q: "Which account represents money earned from selling goods?", a: ["Revenue", "Expense", "Liability", "Drawing"], correct: 0 },
     { q: "What is the normal balance of an asset account?", a: ["Credit", "Debit", "Neither debit nor credit", "Both always equal zero"], correct: 1 },
