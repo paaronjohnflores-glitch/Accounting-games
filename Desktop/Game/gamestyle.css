@@ -545,19 +545,24 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
     z-index: 90;
 }
 .shop-screen.hidden {
     display: none;
 }
 .shop-card {
-    width: min(560px, 86vw);
+    width: min(920px, 94vw);
+    max-height: calc(100vh - 32px);
     background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(232, 242, 255, 0.96));
-    border-radius: 22px;
+    border-radius: 8px;
     border: 1px solid rgba(37, 99, 235, 0.12);
-    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
-    padding: 24px 20px 18px;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);
+    padding: 20px;
+    box-sizing: border-box;
     text-align: center;
+    overflow: hidden;
 }
 .shop-tag {
     margin: 0 0 8px;
@@ -567,52 +572,139 @@ button:hover {
     font-weight: 800;
     font-size: 0.7rem;
 }
-.shop-card h2 {
-    margin: 0 0 18px;
+.shop-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+.shop-heading h2 {
+    margin: 0;
     color: #17304b;
+}
+.shop-gold {
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: #fff4c7;
+    border: 1px solid #f3c95a;
+    color: #7c5700;
+    padding: 7px 11px;
+    font-weight: 800;
+    font-size: 0.85rem;
 }
 .shop-items {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 18px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    max-height: calc(100vh - 240px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    margin-bottom: 10px;
+    padding: 2px 4px 4px 2px;
+    scrollbar-gutter: stable;
 }
 .shop-item {
     background: rgba(15, 23, 42, 0.04);
     border: 1px solid rgba(30, 41, 59, 0.12);
-    border-radius: 14px;
-    padding: 14px 12px;
+    border-radius: 6px;
+    padding: 10px;
     text-align: left;
     color: #1f2d3d;
+    display: flex;
+    flex-direction: column;
+    min-height: 132px;
+}
+.shop-item-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 .shop-item h3 {
-    margin: 0 0 6px;
-    font-size: 1rem;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.25;
 }
 .rarity-badge {
     display: inline-block;
-    margin: 0 0 8px;
-    padding: 4px 8px;
+    flex: 0 0 auto;
+    padding: 3px 6px;
     border-radius: 999px;
-    font-size: 0.7rem;
+    font-size: 0.62rem;
     color: white;
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
-.shop-item p {
+.shop-item-description {
     margin: 0 0 10px;
     line-height: 1.4;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: #475569;
+    flex: 1;
+}
+.shop-item-footer {
+    display: grid;
+    grid-template-columns: auto minmax(82px, 0.75fr);
+    align-items: center;
+    gap: 8px;
+}
+.shop-item-footer p {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #7c5700;
 }
 .shop-item button {
     width: 100%;
-    padding: 10px 12px;
-    font-size: 0.9rem;
+    padding: 8px 8px;
+    font-size: 0.78rem;
+}
+.shop-item button:disabled {
+    opacity: 0.48;
+    cursor: not-allowed;
+    filter: grayscale(0.35);
+}
+.shop-status {
+    min-height: 18px;
+    margin: 0 0 8px;
+    color: #475569;
+    font-size: 0.78rem;
+    font-weight: 700;
 }
 .shop-close-button {
     width: min(180px, 100%);
+}
+@media (max-width: 700px) {
+    .shop-card {
+        width: 100%;
+        max-height: calc(100vh - 24px);
+        padding: 14px;
+    }
+    .shop-heading {
+        align-items: flex-start;
+    }
+    .shop-heading h2 {
+        font-size: 1.1rem;
+        text-align: left;
+    }
+    .shop-items {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-height: calc(100vh - 220px);
+    }
+}
+@media (max-width: 430px) {
+    .shop-screen {
+        padding: 8px;
+    }
+    .shop-items {
+        grid-template-columns: 1fr;
+    }
+    .shop-gold {
+        padding: 6px 8px;
+        font-size: 0.76rem;
+    }
 }
 @keyframes levelUpPulse {
     0% {

@@ -1577,6 +1577,8 @@ const vfxLayer = document.getElementById('vfx-layer');
 const shopScreenEl = document.getElementById('shop-screen');
 const shopItemsEl = document.getElementById('shop-items');
 const shopCloseButtonEl = document.getElementById('shop-close-button');
+const shopGoldEl = document.getElementById('shop-gold');
+const shopStatusEl = document.getElementById('shop-status');
 
 retryButtonEl.addEventListener('click', () => {
     hideGameOverScreen();
@@ -1605,6 +1607,28 @@ if (shopCloseButtonEl) {
     shopCloseButtonEl.addEventListener('click', () => {
         hideShopScreen();
         setTimeout(spawnNewEnemy, 250);
+    });
+}
+
+if (shopItemsEl) {
+    shopItemsEl.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-item-id]');
+        if (!button || button.disabled) return;
+
+        const selected = shopCatalog.find((item) => item.id === button.dataset.itemId);
+        if (!selected) return;
+
+        const succeeded = selected.action();
+        if (succeeded === false) {
+            if (shopStatusEl) shopStatusEl.textContent = logEl.innerText;
+            renderShopItems();
+            return;
+        }
+
+        renderShopItems();
+        if (shopStatusEl) shopStatusEl.textContent = logEl.innerText;
+        hideShopScreen();
+        setTimeout(spawnNewEnemy, 300);
     });
 }
 
@@ -2556,36 +2580,32 @@ function renderShopItems() {
 
     shopItemsEl.innerHTML = shopCatalog.map((item) => {
         const owned = player.equipment.includes(item.id) || false;
+        const canAfford = player.gold >= item.cost;
         const rarityInfo = rarityStyles[item.rarity] || rarityStyles.Common;
+        const buttonLabel = owned ? 'Owned' : !canAfford ? 'Need Gold' : 'Buy';
+        const buttonState = owned || !canAfford ? 'disabled' : '';
         return `
             <div class="shop-item rarity-${(item.rarity || 'Common').toLowerCase()}">
-                <h3>${item.name}</h3>
-                <span class="rarity-badge" style="background:${rarityInfo.color};">${rarityInfo.label}</span>
-                <p>${item.description}</p>
-                <p><strong>Cost: ${item.cost} gold</strong></p>
-                <button type="button" data-item-id="${item.id}" ${owned ? 'disabled' : ''}>${owned ? 'Owned' : 'Buy'}</button>
+                <div class="shop-item-heading">
+                    <h3>${item.name}</h3>
+                    <span class="rarity-badge" style="background:${rarityInfo.color};">${rarityInfo.label}</span>
+                </div>
+                <p class="shop-item-description">${item.description}</p>
+                <div class="shop-item-footer">
+                    <p><strong>${item.cost} gold</strong></p>
+                    <button type="button" data-item-id="${item.id}" ${buttonState} aria-label="${buttonLabel} ${item.name}">${buttonLabel}</button>
+                </div>
             </div>
         `;
     }).join('');
 
-    shopItemsEl.querySelectorAll('button[data-item-id]').forEach((button) => {
-        if (button.disabled) return;
-        button.addEventListener('click', () => {
-            const selected = shopCatalog.find((item) => item.id === button.dataset.itemId);
-            if (selected) {
-                const succeeded = selected.action();
-                if (succeeded !== false) {
-                    hideShopScreen();
-                    setTimeout(spawnNewEnemy, 300);
-                }
-            }
-        });
-    });
+    if (shopGoldEl) shopGoldEl.textContent = `Gold: ${player.gold}`;
 }
 
 function showShopScreen() {
     if (!shopScreenEl) return;
     shopScreenEl.classList.remove('hidden');
+    if (shopStatusEl) shopStatusEl.textContent = 'Choose an item to purchase.';
     renderShopItems();
 }
 
