@@ -2201,14 +2201,10 @@ function handleAnswer(selectedIndex) {
 
     updateUi();
 
-    if (enemy.hp > 0 && player.hp > 0) {
+    if (selectedIndex !== currentQuestion.correct && enemy.hp > 0 && player.hp > 0) {
         const classModifiers = getClassCombatModifiers();
         const enemyBaseDamage = Math.round(enemy.attack * classModifiers.incomingDamageMultiplier);
-        let enemyDamage = enemyBaseDamage;
-
-        if (selectedIndex !== currentQuestion.correct) {
-            enemyDamage = Math.round(enemyDamage * classModifiers.wrongAnswerPenaltyMultiplier);
-        }
+        const enemyDamage = Math.round(enemyBaseDamage * classModifiers.wrongAnswerPenaltyMultiplier);
 
         const enemyMissChance = enemy.isBoss || enemy.isFinalBoss || enemy.isMiniBoss || enemy.isSecretBoss ? 0.14 : 0.2;
         const enemyMissed = Math.random() < enemyMissChance;
